@@ -1,3 +1,4 @@
+from django.conf import settings
 import numpy as np
 import pandas as pd
 import skfuzzy as fuzz
@@ -11,7 +12,6 @@ class Fuzzifiction():
         return result
 
     def fuzzify_user_input(self, age_val, bmi_val, activity_val, pref_val):
-        print("Inside fuzzify input", age_val, bmi_val, activity_val, pref_val)
         age = np.arange(15, 81, 1)
         age_young = fuzz.trimf(age, [15, 20, 35])
         age_middle = fuzz.trimf(age, [30, 45, 60])
@@ -49,37 +49,27 @@ class Fuzzifiction():
 
         pref = np.arange(0, 5, 1)
 
-# Define fuzzy membership functions
-        pref_nonveg = fuzz.trimf(pref, [0, 0, 1.5])          # Peak at 0
-        pref_vegan = fuzz.trimf(pref, [1, 2, 3])             # Peak at 2
-        pref_vegetarian = fuzz.trimf(pref, [2, 3, 4])        # Peak at 3
-
-    
-        # pref = np.arange(1, 5, 1)
-        # pref_vegan = fuzz.trimf(pref, [1, 1, 2])
-        # pref_veg = fuzz.trimf(pref, [1, 2, 3])
-        # pref_egg = fuzz.trimf(pref, [2, 3, 4])
-        # pref_nonveg = fuzz.trimf(pref, [3, 4, 4])
+        pref_nonveg = fuzz.trimf(pref, [0, 0, 1.5])  
+        pref_vegan = fuzz.trimf(pref, [1, 2, 3])             
+        pref_vegetarian = fuzz.trimf(pref, [2, 3, 4])        
 
         pref_membership = {
-    "Non-Veg": round(fuzz.interp_membership(pref, pref_nonveg, pref_val), 3),
-    "Vegan": round(fuzz.interp_membership(pref, pref_vegan, pref_val), 3),
-    "Vegetarian": round(fuzz.interp_membership(pref, pref_vegetarian, pref_val), 3)
-}
+            "Non-Veg": round(fuzz.interp_membership(pref, pref_nonveg, pref_val), 3),
+            "Vegan": round(fuzz.interp_membership(pref, pref_vegan, pref_val), 3),
+            "Vegetarian": round(fuzz.interp_membership(pref, pref_vegetarian, pref_val), 3)
+        }
         output = {
             "Age": age_membership,
             "BMI": bmi_membership,
             "Activity Level": activity_membership,
             "Dietary Preference": pref_membership
         }
-        print(output)
         return output
 
     def infer_diet_recommendation(self, fuzzified_input):
-        age = fuzzified_input["Age"]
-        bmi = fuzzified_input["BMI"]
-        activity = fuzzified_input["Activity Level"]
-
+        age= max(fuzzified_input["Age"], key=fuzzified_input["Age"].get)
+        bmi = max(fuzzified_input["BMI"], key=fuzzified_input["BMI"].get)
+        activity = max(fuzzified_input["Activity Level"], key=fuzzified_input["Activity Level"].get)
         # --- Vegan ---
         if age == 'young' and bmi == 'obese' and activity == 'moderate':
          return 'moderate'
@@ -211,19 +201,19 @@ class Fuzzifiction():
             return 'unknown'  # Default if no condition is met
     
     def fetch_recommendation(self, score: str, diet_preference: int, disease: str) -> str:
-        file_path = r'D:\projects\diet_recommendation\dataset\food_and_nutrition_update.csv'
-        data = pd.read_csv(file_path)
+        data = pd.read_csv(settings.DATASET_PATH)
+        # print("???? User diseases: ", disease)
 
         fetch = data[
-            (data['Disease'].str.lower() == disease.lower()) & 
+            data['Disease'].str.contains(disease.lower(), case=False, na=False) & 
             (data['Dietary Preference'] == diet_preference) &
             (data['Scaling'] == score)
         ]
 
-        breakfast = ''.join(fetch['Breakfast Suggestion'].dropna().head(4).tolist())
-        lunch = ''.join(fetch['Lunch Suggestion'].dropna().head(4).tolist())
-        dinner = ''.join(fetch['Dinner Suggestion'].dropna().head(4).tolist())
-        snack = ''.join(fetch['Snack Suggestion'].dropna().head(4).tolist())
+        breakfast = ', '.join(fetch['Breakfast Suggestion'].dropna().head(4).tolist())
+        lunch = ', '.join(fetch['Lunch Suggestion'].dropna().head(4).tolist())
+        dinner = ', '.join(fetch['Dinner Suggestion'].dropna().head(4).tolist())
+        snack = ', '.join(fetch['Snack Suggestion'].dropna().head(4).tolist())
 
         return {
             "breakfast": breakfast,

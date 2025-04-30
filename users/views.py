@@ -13,7 +13,8 @@ def diet_form(request):
         height=float(height)
         weight=float(weight)
 
-        bmi = weight / (height ** 2)
+        height_m = height/100
+        bmi = weight / (height_m ** 2)
 
         activity_map = {
             "active": 0, # 3, 4
@@ -32,30 +33,10 @@ def diet_form(request):
 
         recommendation = Fuzzifiction().execute(age, bmi, activity_level, diet_preference,disease)
 
-        print("Final Recommendation: ", recommendation)
         return render(request, "users/result.html", {
                 "bmi": round(bmi, 2),
                 "recommendation": recommendation,
         })
 
-        # return render(request,template_name="users/result.html", {
-        #     "bmi": round(bmi, 2),
-        #     "recommendation": recommendation,
-        #     "breakfast": breakfast, 
-        #     "lunch": lunch,
-        #     "dinner": dinner,
-        #     "snack": snack,
-    # })
-
     return render(request, template_name="users/health.html", context={})
 
-        
-    
-# return render(request,template_name="users/result.html", {
-#         "bmi": round(bmi, 2),
-#         "recommendation": recommendation,
-#         "breakfast": breakfast,
-#         "lunch": lunch,
-#         "dinner": dinner,
-#         "snack": snack, kk
-#     })
