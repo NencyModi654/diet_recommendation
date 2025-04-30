@@ -8,7 +8,7 @@ def diet_form(request):
         height = request.POST.get("height")
         weight = request.POST.get("weight")
         activity_level = request.POST.get("activity_level")
-        diet_preference = request.POST.get("diet_prefrence")
+        diet_preference = request.POST.get("diet_preference")
         disease=request.POST.get("user_disease")
         height=float(height)
         weight=float(weight)
@@ -16,28 +16,23 @@ def diet_form(request):
         bmi = weight / (height ** 2)
 
         activity_map = {
-            "Extremely Active": 0,
-            "Lightly Active": 1,
-            "Moderately": 2,
-            "Sedentary": 3,
-            "Very Active": 4
-             }
-
-        diet_map = {
-            "Omnivore": 0,
-            "Pescatarian": 1,
-            "Vegan": 2,
-            "Vegetarian": 2,
+            "active": 0, # 3, 4
+            "moderate": 2,
+            "sedentary": 1,
         }
 
+        diet_map = {
+            "non-veg": 0,
+            "vegan": 2,
+            "vegetarian": 3,
+        }
               
         activity_level = activity_map.get(activity_level, 0)
         diet_preference= diet_map.get(diet_preference, 0)
 
-        
-
         recommendation = Fuzzifiction().execute(age, bmi, activity_level, diet_preference,disease)
 
+        print("Final Recommendation: ", recommendation)
         return render(request, "users/result.html", {
                 "bmi": round(bmi, 2),
                 "recommendation": recommendation,
