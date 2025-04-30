@@ -10,7 +10,6 @@ def diet_form(request):
         activity_level = request.POST.get("activity_level")
         diet_preference = request.POST.get("diet_prefrence")
         disease=request.POST.get("user_disease")
-        print(weight, height)
         height=float(height)
         weight=float(weight)
 
