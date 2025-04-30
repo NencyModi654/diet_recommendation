@@ -1,0 +1,496 @@
+# --- Existing Rules ---
+        rule1 = np.fmin(np.fmin(age["Young"], activity["Active"]), bmi["Underweight"])  # High
+        rule2 = np.fmin(np.fmin(age["Middle-aged"], activity["Moderate"]), bmi["Normal"])  # Moderate
+        rule3 = np.fmin(np.fmin(age["Elderly"], activity["Sedentary"]), bmi["Obese"])  # Low
+        rule4 = np.fmin(bmi["Overweight"], activity["Moderate"])  # Moderate
+        rule5 = np.fmin(np.fmin(age["Young"], activity["Sedentary"]), bmi["Obese"])  # Low
+        rule6 = np.fmin(activity["Active"], bmi["Normal"])  # High
+        rule7 = np.fmin(np.fmin(age["Elderly"], activity["Active"]), bmi["Normal"])  # Moderate
+        rule8 = np.fmin(np.fmin(age["Middle-aged"], activity["Sedentary"]), bmi["Overweight"])  # Low
+        rule9 = np.fmin(np.fmin(age["Young"], activity["Moderate"]), bmi["Normal"])  # High
+        rule10 = np.fmin(np.fmin(age["Middle-aged"], activity["Active"]), bmi["Underweight"])  # Moderate
+        rule11 = np.fmin(np.fmin(age["Elderly"], activity["Moderate"]), bmi["Obese"])  # Low
+        rule12 = np.fmin(np.fmin(age["Young"], activity["Active"]), bmi["Normal"])  # High
+
+        # --- New Rules including Dietary Preference ---
+        rule13 = np.fmin(np.fmin(pref["Vegan"], bmi["Underweight"]), activity["Active"])  # Moderate (protein concern)
+        rule14 = np.fmin(np.fmin(pref["Non-Veg"], bmi["Obese"]), activity["Sedentary"])  # Low (high calorie caution)
+        rule15 = np.fmin(np.fmin(pref["Vegetarian"], bmi["Normal"]), activity["Moderate"])  # High
+        rule16 = np.fmin(np.fmin(pref["Eggitarian"], bmi["Normal"]), activity["Active"])  # High
+
+        # Young + Underweight + Active → High (high calorie & protein)
+        rule_y1 = np.fmin(np.fmin(age["Young"], bmi["Underweight"]), activity["Active"])  # High
+
+        # Young + Normal BMI + Active → High (maintain balance)
+        rule_y2 = np.fmin(np.fmin(age["Young"], bmi["Normal"]), activity["Active"])  # High
+
+        # Young + Obese + Sedentary → Low (risk of early metabolic issues)
+        rule_y3 = np.fmin(np.fmin(age["Young"], bmi["Obese"]), activity["Sedentary"])  # Low
+
+        # Young + Overweight + Moderate → Moderate (diet control + activity)
+        rule_y4 = np.fmin(np.fmin(age["Young"], bmi["Overweight"]), activity["Moderate"])  # Moderate
+
+        # Young + Underweight + Moderate → Moderate (needs slight increase in intake)
+        rule_y5 = np.fmin(np.fmin(age["Young"], bmi["Underweight"]), activity["Moderate"])  # Moderate
+
+        # Young + Normal BMI + Sedentary → Moderate (monitor for weight gain)
+        rule_y6 = np.fmin(np.fmin(age["Young"], bmi["Normal"]), activity["Sedentary"])  # Moderate
+
+        # Young + Obese + Moderate → Low (diet restriction needed)
+        rule_y7 = np.fmin(np.fmin(age["Young"], bmi["Obese"]), activity["Moderate"])  # Low
+
+        # Young + Overweight + Active → Moderate (encourage sustained exercise)
+        rule_y8 = np.fmin(np.fmin(age["Young"], bmi["Overweight"]), activity["Active"])  # Moderate
+
+        # Young + Normal BMI + Moderate → High (ideal profile)
+        rule_y9 = np.fmin(np.fmin(age["Young"], bmi["Normal"]), activity["Moderate"])  # High
+
+        # Young + Vegan + Underweight + Active → Moderate (focus on plant protein)
+        rule_y10 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Underweight"]), activity["Active"])  # Moderate
+
+
+        rule_y_v1 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Underweight"]), activity["Sedentary"])  # Low
+        rule_y_v2 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Underweight"]), activity["Moderate"])  # Moderate
+        rule_y_v3 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Underweight"]), activity["Active"])  # Moderate
+
+        rule_y_v4 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Normal"]), activity["Sedentary"])  # Moderate
+        rule_y_v5 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Normal"]), activity["Moderate"])  # High
+        rule_y_v6 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Normal"]), activity["Active"])  # High
+
+        rule_y_v7 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Overweight"]), activity["Sedentary"])  # Low
+        rule_y_v8 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Overweight"]), activity["Moderate"])  # Moderate
+        rule_y_v9 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Overweight"]), activity["Active"])  # Moderate
+
+        rule_y_v10 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Obese"]), activity["Sedentary"])  # Low
+        rule_y_v11 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Obese"]), activity["Moderate"])  # Low
+        rule_y_v12 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegan"]), bmi["Obese"]), activity["Active"])  # Moderate
+
+        # --- Vegetarian ---
+        rule_y_veg1 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Underweight"]), activity["Sedentary"])  # Low
+        rule_y_veg2 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Underweight"]), activity["Moderate"])  # Moderate
+        rule_y_veg3 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Underweight"]), activity["Active"])  # Moderate
+
+        rule_y_veg4 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Normal"]), activity["Sedentary"])  # Moderate
+        rule_y_veg5 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Normal"]), activity["Moderate"])  # High
+        rule_y_veg6 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Normal"]), activity["Active"])  # High
+
+        rule_y_veg7 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Overweight"]), activity["Sedentary"])  # Low
+        rule_y_veg8 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Overweight"]), activity["Moderate"])  # Moderate
+        rule_y_veg9 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Overweight"]), activity["Active"])  # Moderate
+
+        rule_y_veg10 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Obese"]), activity["Sedentary"])  # Low
+        rule_y_veg11 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Obese"]), activity["Moderate"])  # Low
+        rule_y_veg12 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Vegetarian"]), bmi["Obese"]), activity["Active"])  # Moderate
+
+        # --- Eggitarian ---
+        rule_y_e1 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Underweight"]), activity["Sedentary"])  # Low
+        rule_y_e2 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Underweight"]), activity["Moderate"])  # Moderate
+        rule_y_e3 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Underweight"]), activity["Active"])  # High
+
+        rule_y_e4 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Normal"]), activity["Sedentary"])  # Moderate
+        rule_y_e5 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Normal"]), activity["Moderate"])  # High
+        rule_y_e6 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Normal"]), activity["Active"])  # High
+
+        rule_y_e7 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Overweight"]), activity["Sedentary"])  # Low
+        rule_y_e8 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Overweight"]), activity["Moderate"])  # Moderate
+        rule_y_e9 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Overweight"]), activity["Active"])  # Moderate
+
+        rule_y_e10 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Obese"]), activity["Sedentary"])  # Low
+        rule_y_e11 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Obese"]), activity["Moderate"])  # Low
+        rule_y_e12 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Eggitarian"]), bmi["Obese"]), activity["Active"])  # Moderate
+
+        # --- Non-Veg ---
+        rule_y_nv1 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Underweight"]), activity["Sedentary"])  # Low
+        rule_y_nv2 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Underweight"]), activity["Moderate"])  # Moderate
+        rule_y_nv3 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Underweight"]), activity["Active"])  # High
+
+        rule_y_nv4 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Normal"]), activity["Sedentary"])  # Moderate
+        rule_y_nv5 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Normal"]), activity["Moderate"])  # High
+        rule_y_nv6 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Normal"]), activity["Active"])  # High
+
+        rule_y_nv7 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Overweight"]), activity["Sedentary"])  # Low
+        rule_y_nv8 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Overweight"]), activity["Moderate"])  # Moderate
+        rule_y_nv9 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Overweight"]), activity["Active"])  # Moderate
+
+        rule_y_nv10 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Obese"]), activity["Sedentary"])  # Low
+        rule_y_nv11 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Obese"]), activity["Moderate"])  # Low
+        rule_y_nv12 = np.fmin(np.fmin(np.fmin(age["Young"], pref["Non-Veg"]), bmi["Obese"]), activity["Active"])  # Moderate
+
+        # --- Vegan ---
+        rule_m_v1 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Underweight"]), activity["Sedentary"])  # Low
+        rule_m_v2 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Underweight"]), activity["Moderate"])  # Moderate
+        rule_m_v3 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Underweight"]), activity["Active"])    # Moderate
+
+        rule_m_v4 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Normal"]), activity["Sedentary"])     # Moderate
+        rule_m_v5 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Normal"]), activity["Moderate"])      # High
+        rule_m_v6 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Normal"]), activity["Active"])        # High
+
+        rule_m_v7 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Overweight"]), activity["Sedentary"]) # Low
+        rule_m_v8 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Overweight"]), activity["Moderate"])  # Moderate
+        rule_m_v9 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Overweight"]), activity["Active"])    # Moderate
+
+        rule_m_v10 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Obese"]), activity["Sedentary"])     # Low
+        rule_m_v11 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Obese"]), activity["Moderate"])      # Low
+        rule_m_v12 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegan"]), bmi["Obese"]), activity["Active"])        # Moderate
+
+        # --- Vegetarian ---
+        rule_m_veg1 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Underweight"]), activity["Sedentary"])  # Low
+        rule_m_veg2 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Underweight"]), activity["Moderate"])  # Moderate
+        rule_m_veg3 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Underweight"]), activity["Active"])    # Moderate
+
+        rule_m_veg4 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Normal"]), activity["Sedentary"])      # Moderate
+        rule_m_veg5 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Normal"]), activity["Moderate"])       # High
+        rule_m_veg6 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Normal"]), activity["Active"])         # High
+
+        rule_m_veg7 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Overweight"]), activity["Sedentary"])  # Low
+        rule_m_veg8 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Overweight"]), activity["Moderate"])   # Moderate
+        rule_m_veg9 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Overweight"]), activity["Active"])     # Moderate
+
+        rule_m_veg10 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Obese"]), activity["Sedentary"])      # Low
+        rule_m_veg11 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Obese"]), activity["Moderate"])       # Low
+        rule_m_veg12 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Vegetarian"]), bmi["Obese"]), activity["Active"])         # Moderate
+
+        # --- Eggitarian ---
+        rule_m_e1 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Underweight"]), activity["Sedentary"])   # Low
+        rule_m_e2 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Underweight"]), activity["Moderate"])    # Moderate
+        rule_m_e3 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Underweight"]), activity["Active"])      # High
+
+        rule_m_e4 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Normal"]), activity["Sedentary"])        # Moderate
+        rule_m_e5 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Normal"]), activity["Moderate"])         # High
+        rule_m_e6 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Normal"]), activity["Active"])           # High
+
+        rule_m_e7 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Overweight"]), activity["Sedentary"])    # Low
+        rule_m_e8 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Overweight"]), activity["Moderate"])     # Moderate
+        rule_m_e9 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Overweight"]), activity["Active"])       # Moderate
+
+        rule_m_e10 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Obese"]), activity["Sedentary"])        # Low
+        rule_m_e11 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Obese"]), activity["Moderate"])         # Low
+        rule_m_e12 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Eggitarian"]), bmi["Obese"]), activity["Active"])           # Moderate
+
+        # --- Non-Veg ---
+        rule_m_nv1 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Underweight"]), activity["Sedentary"])     # Low
+        rule_m_nv2 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Underweight"]), activity["Moderate"])      # Moderate
+        rule_m_nv3 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Underweight"]), activity["Active"])        # High
+
+        rule_m_nv4 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Normal"]), activity["Sedentary"])          # Moderate
+        rule_m_nv5 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Normal"]), activity["Moderate"])           # High
+        rule_m_nv6 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Normal"]), activity["Active"])             # High
+
+        rule_m_nv7 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Overweight"]), activity["Sedentary"])      # Low
+        rule_m_nv8 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Overweight"]), activity["Moderate"])       # Moderate
+        rule_m_nv9 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Overweight"]), activity["Active"])         # Moderate
+
+        rule_m_nv10 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Obese"]), activity["Sedentary"])          # Low
+        rule_m_nv11 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Obese"]), activity["Moderate"])           # Low
+        rule_m_nv12 = np.fmin(np.fmin(np.fmin(age["Middle-aged"], pref["Non-Veg"]), bmi["Obese"]), activity["Active"])             # Moderate
+
+        # --- Vegan ---
+        rule_o_v1 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Underweight"]), activity["Sedentary"])   # Low
+        rule_o_v2 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Underweight"]), activity["Moderate"])    # Moderate
+        rule_o_v3 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Underweight"]), activity["Active"])      # Moderate
+
+        rule_o_v4 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Normal"]), activity["Sedentary"])        # Moderate
+        rule_o_v5 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Normal"]), activity["Moderate"])         # High
+        rule_o_v6 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Normal"]), activity["Active"])           # High
+
+        rule_o_v7 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Overweight"]), activity["Sedentary"])    # Low
+        rule_o_v8 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Overweight"]), activity["Moderate"])     # Moderate
+        rule_o_v9 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Overweight"]), activity["Active"])       # Moderate
+
+        rule_o_v10 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Obese"]), activity["Sedentary"])        # Low
+        rule_o_v11 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Obese"]), activity["Moderate"])         # Low
+        rule_o_v12 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegan"]), bmi["Obese"]), activity["Active"])           # Moderate
+
+        # --- Vegetarian ---
+        rule_o_veg1 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Underweight"]), activity["Sedentary"])  # Low
+        rule_o_veg2 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Underweight"]), activity["Moderate"])  # Moderate
+        rule_o_veg3 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Underweight"]), activity["Active"])    # Moderate
+
+        rule_o_veg4 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Normal"]), activity["Sedentary"])     # Moderate
+        rule_o_veg5 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Normal"]), activity["Moderate"])      # High
+        rule_o_veg6 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Normal"]), activity["Active"])        # High
+
+        rule_o_veg7 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Overweight"]), activity["Sedentary"]) # Low
+        rule_o_veg8 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Overweight"]), activity["Moderate"])  # Moderate
+        rule_o_veg9 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Overweight"]), activity["Active"])    # Moderate
+
+        rule_o_veg10 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Obese"]), activity["Sedentary"])     # Low
+        rule_o_veg11 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Obese"]), activity["Moderate"])      # Low
+        rule_o_veg12 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Vegetarian"]), bmi["Obese"]), activity["Active"])        # Moderate
+
+        # --- Eggitarian ---
+        rule_o_e1 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Underweight"]), activity["Sedentary"])   # Low
+        rule_o_e2 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Underweight"]), activity["Moderate"])    # Moderate
+        rule_o_e3 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Underweight"]), activity["Active"])      # Moderate
+
+        rule_o_e4 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Normal"]), activity["Sedentary"])        # Moderate
+        rule_o_e5 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Normal"]), activity["Moderate"])         # High
+        rule_o_e6 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Normal"]), activity["Active"])           # High
+
+        rule_o_e7 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Overweight"]), activity["Sedentary"])    # Low
+        rule_o_e8 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Overweight"]), activity["Moderate"])     # Moderate
+        rule_o_e9 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Overweight"]), activity["Active"])       # Moderate
+
+        rule_o_e10 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Obese"]), activity["Sedentary"])        # Low
+        rule_o_e11 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Obese"]), activity["Moderate"])         # Low
+        rule_o_e12 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Eggitarian"]), bmi["Obese"]), activity["Active"])           # Moderate
+
+        # --- Non-Veg ---
+        rule_o_nv1 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Underweight"]), activity["Sedentary"])     # Low
+        rule_o_nv2 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Underweight"]), activity["Moderate"])      # Moderate
+        rule_o_nv3 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Underweight"]), activity["Active"])        # High
+
+        rule_o_nv4 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Normal"]), activity["Sedentary"])          # Moderate
+        rule_o_nv5 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Normal"]), activity["Moderate"])           # High
+        rule_o_nv6 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Normal"]), activity["Active"])             # High
+
+        rule_o_nv7 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Overweight"]), activity["Sedentary"])      # Low
+        rule_o_nv8 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Overweight"]), activity["Moderate"])       # Moderate
+        rule_o_nv9 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Overweight"]), activity["Active"])         # Moderate
+
+        rule_o_nv10 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Obese"]), activity["Sedentary"])          # Low
+        rule_o_nv11 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Obese"]), activity["Moderate"])           # Low
+        rule_o_nv12 = np.fmin(np.fmin(np.fmin(age["Elderly"], pref["Non-Veg"]), bmi["Obese"]), activity["Active"])             # Moderate
+
+        
+        rule1 = ctrl.Rule(age['young'] & bmi['normal'] & activity['active'] & pref['vegetarian'], score['high'])
+        rule2 = ctrl.Rule(age['elderly'] & bmi['obese'] & activity['sedentary'] & pref['non_veg'], score['low'])
+        rule3 = ctrl.Rule(age['middle_aged'] & bmi['overweight'] & activity['moderate'] & pref['vegan'], score['moderate'])
+        rule4 = ctrl.Rule(age['young'] & bmi['underweight'] & activity['sedentary'] & pref['eggitarian'], score['low'])
+        rule5 = ctrl.Rule(age['elderly'] & bmi['normal'] & activity['moderate'] & pref['vegetarian'], score['moderate'])
+        rule6 = ctrl.Rule(age['middle_aged'] & bmi['obese'] & activity['active'] & pref['non_veg'], score['high'])
+        rule7 = ctrl.Rule(age['young'] & bmi['underweight'] & activity['active'] & pref['vegan'], score['high'])
+        rule8 = ctrl.Rule(age['elderly'] & bmi['overweight'] & activity['moderate'] & pref['non_veg'], score['low'])
+        rule9 = ctrl.Rule(age['middle_aged'] & bmi['normal'] & activity['sedentary'] & pref['vegetarian'], score['low'])
+        rule10 = ctrl.Rule(age['young'] & bmi['obese'] & activity['sedentary'] & pref['non_veg'], score['low'])
+        rule11 = ctrl.Rule(age['elderly'] & bmi['normal'] & activity['active'] & pref['eggitarian'], score['high'])
+        rule12 = ctrl.Rule(age['middle_aged'] & bmi['underweight'] & activity['moderate'] & pref['non_veg'], score['moderate'])
+        rule13 = ctrl.Rule(age['young'] & bmi['overweight'] & activity['active'] & pref['vegetarian'], score['moderate'])
+        rule14 = ctrl.Rule(age['elderly'] & bmi['underweight'] & activity['active'] & pref['vegan'], score['moderate'])
+        rule15 = ctrl.Rule(age['middle_aged'] & bmi['overweight'] & activity['sedentary'] & pref['eggitarian'], score['low'])
+        rule16 = ctrl.Rule(age['young'] & bmi['normal'] & activity['moderate'] & pref['non_veg'], score['moderate'])
+        rule17 = ctrl.Rule(age['elderly'] & bmi['obese'] & activity['moderate'] & pref['vegetarian'], score['low'])
+        rule18 = ctrl.Rule(age['middle_aged'] & bmi['normal'] & activity['active'] & pref['vegan'], score['high'])
+        rule19 = ctrl.Rule(age['young'] & bmi['normal'] & activity['sedentary'] & pref['eggitarian'], score['low'])
+        rule20 = ctrl.Rule(age['elderly'] & bmi['overweight'] & activity['active'] & pref['vegetarian'], score['moderate'])
+        rule21 = ctrl.Rule(age['middle_aged'] & bmi['normal'] & activity['active'] & pref['non_veg'], score['high'])
+        rule22 = ctrl.Rule(age['young'] & bmi['obese'] & activity['active'] & pref['vegan'], score['moderate'])
+        rule23 = ctrl.Rule(age['middle_aged'] & bmi['underweight'] & activity['active'] & pref['vegetarian'], score['high'])
+        rule24 = ctrl.Rule(age['elderly'] & bmi['normal'] & activity['sedentary'] & pref['eggitarian'], score['low'])
+        rule25 = ctrl.Rule(age['young'] & bmi['overweight'] & activity['sedentary'] & pref['non_veg'], score['low'])
+        rule26 = ctrl.Rule(age['elderly'] & bmi['obese'] & activity['active'] & pref['vegetarian'], score['moderate'])
+        rule27 = ctrl.Rule(age['middle_aged'] & bmi['underweight'] & activity['sedentary'] & pref['non_veg'], score['low'])
+        rule28 = ctrl.Rule(age['young'] & bmi['normal'] & activity['moderate'] & pref['vegetarian'], score['high'])
+        rule29 = ctrl.Rule(age['elderly'] & bmi['overweight'] & activity['moderate'] & pref['vegan'], score['moderate'])
+        rule30 = ctrl.Rule(age['middle_aged'] & bmi['normal'] & activity['active'] & pref['eggitarian'], score['high'])
+        rule31 = ctrl.Rule(age['young'] & bmi['underweight'] & activity['moderate'] & pref['non_veg'], score['low'])
+        rule32 = ctrl.Rule(age['elderly'] & bmi['overweight'] & activity['sedentary'] & pref['vegan'], score['low'])
+        rule33 = ctrl.Rule(age['middle_aged'] & bmi['obese'] & activity['sedentary'] & pref['vegetarian'], score['low'])
+        rule34 = ctrl.Rule(age['young'] & bmi['underweight'] & activity['active'] & pref['non_veg'], score['high'])
+        rule35 = ctrl.Rule(age['elderly'] & bmi['normal'] & activity['active'] & pref['non_veg'], score['high'])
+        rule36 = ctrl.Rule(age['middle_aged'] & bmi['overweight'] & activity['active'] & pref['eggitarian'], score['high'])
+        rule37 = ctrl.Rule(age['young'] & bmi['normal'] & activity['moderate'] & pref['vegan'], score['high'])
+        rule38 = ctrl.Rule(age['elderly'] & bmi['underweight'] & activity['active'] & pref['vegetarian'], score['high'])
+        rule39 = ctrl.Rule(age['middle_aged'] & bmi['obese'] & activity['moderate'] & pref['eggitarian'], score['moderate'])
+        rule40 = ctrl.Rule(age['young'] & bmi['normal'] & activity['active'] & pref['eggitarian'], score['high'])
+        rule41 = ctrl.Rule(age['elderly'] & bmi['overweight'] & activity['moderate'] & pref['non_veg'], score['low'])
+        rule42 = ctrl.Rule(age['middle_aged'] & bmi['underweight'] & activity['active'] & pref['vegan'], score['high'])
+        rule43 = ctrl.Rule(age['young'] & bmi['overweight'] & activity['moderate'] & pref['vegetarian'], score['moderate'])
+        rule44 = ctrl.Rule(age['elderly'] & bmi['underweight'] & activity['moderate'] & pref['non_veg'], score['low'])
+        rule45 = ctrl.Rule(age['middle_aged'] & bmi['overweight'] & activity['active'] & pref['vegetarian'], score['high'])
+        rule46 = ctrl.Rule(age['young'] & bmi['normal'] & activity['active'] & pref['vegan'], score['high'])
+        rule47 = ctrl.Rule(age['elderly'] & bmi['obese'] & activity['active'] & pref['eggitarian'], score['moderate'])
+        rule48 = ctrl.Rule(age['middle_aged'] & bmi['underweight'] & activity['sedentary'] & pref['vegetarian'], score['low'])
+        rule49 = ctrl.Rule(age['young'] & bmi['normal'] & activity['moderate'] & pref['eggitarian'], score['moderate'])
+        rule50 = ctrl.Rule(age['elderly'] & bmi['overweight'] & activity['active'] & pref['vegan'], score['moderate'])
+
+def fetch_recommendation(self, score: str, diet_preference: int, disease: str) -> str:
+    data = pd.read_csv('food_and_nutrition.csv')
+
+    preference_map = {
+        1: 'Vegan',
+        2: 'Vegetarian',
+        3: 'Eggitarian',
+        4: 'Non-Veg'
+    }
+
+    score_map = {
+        'low': 'Low',
+        'moderate': 'Moderate',
+        'high': 'High'
+    }
+
+    preference_label = preference_map.get(diet_preference, 'Vegetarian')
+    score_label = score_map.get(score.lower(), 'Moderate')
+
+    filtered = data[
+        (data['Preference'].str.lower() == preference_label.lower()) &
+        (data['Disease'].str.lower() == disease.lower()) &
+        (data['ScoreLevel'].str.lower() == score_label.lower())
+    ]
+
+    if not filtered.empty:
+        return filtered.iloc[0]['FoodItems']
+    else:
+        return "No suitable diet recommendation found."
+
+
+Ah, samjhayu! Tamari requirement pramane, **scaling** aapde `fetch_recommendation()` function ma karvu chhe. Toh, apde pehle user inputs ne scale kari, ne pachhi **fuzzy logic** ne apply kari ne final result fetch karvu chhe.
+
+### Scaling Step:
+
+Apde scaling karva mate **MinMaxScaler** ya **StandardScaler** ni madad lai sakye chhe. Ahiya tamne **MinMaxScaler** no example aapyo chhe, je input ne 0 thi 1 ni range ma convert kare chhe.
+
+### Updated `fetch_recommendation()` function:
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+import skfuzzy as fuzz
+import skfuzzy.control as ctrl
+
+class Fuzzifiction():
+
+    def execute(self, age, bmi, activity_level, diet_preference, disease):
+        fuzzified = self.fuzzify_user_input(age, bmi, activity_level, diet_preference)
+        score = self.infer_diet_recommendation(fuzzified)
+        result = self.fetch_recommendation(score, diet_preference, disease, age, bmi, activity_level)
+        return result
+
+    # Scaling function
+    def scale_input(self, age, bmi, activity_level):
+        # Create a MinMaxScaler
+        scaler = MinMaxScaler()
+
+        # Combine all inputs into one array for scaling
+        inputs = np.array([[age, bmi, activity_level]])
+
+        # Fit and transform scaling
+        scaled_inputs = scaler.fit_transform(inputs)
+
+        # Return scaled values
+        return scaled_inputs[0][0], scaled_inputs[0][1], scaled_inputs[0][2]
+
+    # Fuzzify user input
+    def fuzzify_user_input(self, age_val, bmi_val, activity_val, pref_val):
+        age = np.arange(15, 81, 1)
+        age_young = fuzz.trimf(age, [15, 20, 35])
+        age_middle = fuzz.trimf(age, [30, 45, 60])
+        age_elderly = fuzz.trimf(age, [55, 70, 80])
+
+        age_membership = {
+            "Young": round(fuzz.interp_membership(age, age_young, age_val), 3),
+            "Middle-aged": round(fuzz.interp_membership(age, age_middle, age_val), 3),
+            "Elderly": round(fuzz.interp_membership(age, age_elderly, age_val), 3)
+        }
+
+        bmi = np.arange(10, 41, 0.5)
+        bmi_under = fuzz.trimf(bmi, [10, 15, 18.5])
+        bmi_normal = fuzz.trimf(bmi, [18.5, 22, 25])
+        bmi_over = fuzz.trimf(bmi, [24, 27, 30])
+        bmi_obese = fuzz.trimf(bmi, [29, 35, 40])
+
+        bmi_membership = {
+            "Underweight": round(fuzz.interp_membership(bmi, bmi_under, bmi_val), 3),
+            "Normal": round(fuzz.interp_membership(bmi, bmi_normal, bmi_val), 3),
+            "Overweight": round(fuzz.interp_membership(bmi, bmi_over, bmi_val), 3),
+            "Obese": round(fuzz.interp_membership(bmi, bmi_obese, bmi_val), 3)
+        }
+
+        activity = np.arange(1, 6, 1)
+        activity_sedentary = fuzz.trimf(activity, [1, 1, 3])
+        activity_moderate = fuzz.trimf(activity, [2, 3, 4])
+        activity_active = fuzz.trimf(activity, [3, 5, 5])
+
+        activity_membership = {
+            "Sedentary": round(fuzz.interp_membership(activity, activity_sedentary, activity_val), 3),
+            "Moderate": round(fuzz.interp_membership(activity, activity_moderate, activity_val), 3),
+            "Active": round(fuzz.interp_membership(activity, activity_active, activity_val), 3)
+        }
+
+        pref = np.arange(1, 5, 1)
+        pref_vegan = fuzz.trimf(pref, [1, 1, 2])
+        pref_veg = fuzz.trimf(pref, [1, 2, 3])
+        pref_egg = fuzz.trimf(pref, [2, 3, 4])
+        pref_nonveg = fuzz.trimf(pref, [3, 4, 4])
+
+        pref_membership = {
+            "Vegan": round(fuzz.interp_membership(pref, pref_vegan, pref_val), 3),
+            "Vegetarian": round(fuzz.interp_membership(pref, pref_veg, pref_val), 3),
+            "Eggitarian": round(fuzz.interp_membership(pref, pref_egg, pref_val), 3),
+            "Non-Veg": round(fuzz.interp_membership(pref, pref_nonveg, pref_val), 3)
+        }
+
+        return {
+            "Age": age_membership,
+            "BMI": bmi_membership,
+            "Activity Level": activity_membership,
+            "Dietary Preference": pref_membership
+        }
+
+    # Define rules and inference
+    def infer_diet_recommendation(self, fuzzified_input):
+        age = fuzzified_input["Age"]
+        bmi = fuzzified_input["BMI"]
+        activity = fuzzified_input["Activity Level"]
+        # pref = fuzzified_input["Dietary Preference"]
+
+        # Diet recommendation logic
+        if age == 'young' and bmi == 'obese' and activity == 'moderate':
+            return 'moderate'
+        # Add more rules here as necessary
+
+    def fetch_recommendation(self, score, diet_preference, disease, age, bmi, activity_level):
+
+        # Scale the inputs
+        scaled_age, scaled_bmi, scaled_activity_level = self.scale_input(age, bmi, activity_level)
+
+        # Now, apply these scaled values
+        data = pd.read_csv('food_and_nutrition.csv')
+
+        preference_map = {1: 'Vegan', 2: 'Vegetarian', 3: 'Eggitarian', 4: 'Non-Veg'}
+        pref = preference_map.get(diet_preference, 'Any')
+
+        # Filter based on score and diet preference
+        filtered = data[
+            (data['Recommendation_Level'].str.lower() == score.lower()) &
+            (data['Diet_Preference'] == pref) &
+            (data['Disease'].str.lower() == disease.lower())
+        ]
+
+        # Return the filtered recommendations
+        result = ", ".join(filtered['Food_Item'].head(4).tolist())
+        return result
+```
+
+### Key Changes:
+1. **Scaling**: I’ve added a method `scale_input` which uses `MinMaxScaler` to scale the `age`, `bmi`, and `activity_level` inputs.
+2. **fetch_recommendation**: Now accepts scaled inputs and filters the data accordingly.
+
+### Final Flow:
+- User inputs are **scaled** using `scale_input`.
+- After scaling, those inputs are **passed to** `fetch_recommendation` where they are filtered in the dataset to return the recommendations.
+
+Let me know if you need any more adjustments! 😊
+
+def execute(self, age, bmi, activity_level, diet_preference,disease):
+         activity_map = {
+        "Sedentary": 1,
+        "Moderate": 2,
+        "Active": 3
+        }
+
+         diet_map = {
+        "Vegetarian": 1,
+        "Non-Vegetarian": 2,
+        "Vegan": 3
+        }
+
+        activity_val = activity_map.get(activity_level, 2)
+        pref_val = diet_map.get(diet_preference, 1)
+
+        fuzzified = self.fuzzify_user_input(age, bmi, activity_level, diet_preference)
+        score = self.infer_diet_recommendation(fuzzified)
+        result = self.fetch_recommendation(score,diet_preference,disease)
+        return result
