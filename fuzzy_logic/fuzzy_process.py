@@ -7,6 +7,7 @@ import skfuzzy.control as ctrl
 class Fuzzifiction():
     def execute(self, age, bmi, activity_level, diet_preference,disease):    
         fuzzified = self.fuzzify_user_input(age, bmi, activity_level, diet_preference)
+        
         score = self.infer_diet_recommendation(fuzzified)
         result = self.fetch_recommendation(score,diet_preference,disease)
         return result
@@ -200,21 +201,52 @@ class Fuzzifiction():
         else:
             return 'unknown'  # Default if no condition is met
     
-    def fetch_recommendation(self, score: str, diet_preference: int, disease: str) -> str:
-        data = pd.read_csv(settings.DATASET_PATH)
-        # print("???? User diseases: ", disease)
+    # def fetch_recommendation(self, score: str, diet_preference: int, disease: str) -> str:
+    #     data = pd.read_csv(settings.DATASET_PATH)
+    #     # print("???? User diseases: ", disease)
 
+    #     fetch = data[
+    #         data['Disease'].str.contains(disease.lower(), case=False, na=False) & 
+    #         (data['Dietary Preference'] == diet_preference) &
+    #         (data['Scaling'] == score)
+    #     ]
+
+    #     # fetch = data[
+    #     # (data['Disease'].str.lower() == disease.lower()) &
+    #     # (data['Dietary Preference'] == diet_preference) &
+    #     # (data['Scaling'] == score)
+    #     # ]
+
+    #     breakfast = ', '.join(fetch['Breakfast Suggestion'].dropna().head(4).tolist())
+    #     lunch = ', '.join(fetch['Lunch Suggestion'].dropna().head(4).tolist())
+    #     dinner = ', '.join(fetch['Dinner Suggestion'].dropna().head(4).tolist())
+    #     snack = ', '.join(fetch['Snack Suggestion'].dropna().head(4).tolist())
+        
+    #     return {
+    #         "breakfast": breakfast,
+    #         "lunch": lunch,
+    #         "dinner": dinner,
+    #         "snack": snack
+    #     }
+
+    def fetch_recommendation(self, score: str, diet_preference: int, diseases: list) -> str:
+        data = pd.read_csv(settings.DATASET_PATH)
+
+        # Convert the diseases list to lowercase for comparison
+        diseases_lower = [disease.lower() for disease in diseases]
+
+        # Modify the filtering logic to check if the disease is a string before calling .lower()
         fetch = data[
-            data['Disease'].str.contains(disease.lower(), case=False, na=False) & 
-            (data['Dietary Preference'] == diet_preference) &
+            data['Disease'].apply(lambda x: any(disease.lower() in str(x).lower() for disease in diseases_lower)) & 
+            (data['Dietary Preference'] == diet_preference) & 
             (data['Scaling'] == score)
         ]
-
+        
         breakfast = ', '.join(fetch['Breakfast Suggestion'].dropna().head(4).tolist())
         lunch = ', '.join(fetch['Lunch Suggestion'].dropna().head(4).tolist())
         dinner = ', '.join(fetch['Dinner Suggestion'].dropna().head(4).tolist())
         snack = ', '.join(fetch['Snack Suggestion'].dropna().head(4).tolist())
-
+        
         return {
             "breakfast": breakfast,
             "lunch": lunch,

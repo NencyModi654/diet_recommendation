@@ -54,3 +54,354 @@
         </form>
     </body>
 </html>
+
+
+<!-- <script src="https://cdn.tailwindcss.com"></script>
+<html>
+  <head>
+    <title>Health Form</title>
+    
+  </head>
+  <style>
+      .body-scroll{
+        overscroll-behavior: none;
+      }
+    </style>
+  
+
+  <body class="bg-gray-50 flex justify-center items-center min-h-screen body-scroll">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-semibold text-center mb-6">Enter Your Health Details</h2>
+
+      <form method="POST" action="/" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- Name -->
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+            <input type="text" id="name" name="name" required class="mt-1 p-2 border border-gray-300 rounded-md w-full" >
+          </div>
+  
+          <!-- Age -->
+          <div>
+            <label for="age" class="block text-sm font-medium text-gray-700">Age:</label>
+            <input
+              type="number"
+              id="age"
+              name="age"
+              required
+              class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            >
+          </div>
+  
+          <!-- Height -->
+          <div>
+            <label for="height" class="block text-sm font-medium text-gray-700">Height (cm):</label>
+            <input
+              type="number"
+              id="height"
+              name="height"
+              min="100"
+              max="250"
+              step="0.1"
+              required
+              class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            >
+
+
+          </div>
+  
+          <!-- Weight -->
+          <div>
+            <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg):</label>
+            <input
+              type="number"
+              id="weight"
+              name="weight"
+              step="0.1"
+              required
+              class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            >
+          </div>
+  
+          <!-- Activity Level -->
+          <div>
+            <label for="activity_level" class="block text-sm font-medium text-gray-700">Activity Level:</label>
+            <select
+              id="activity_level"
+              name="activity_level"
+              required
+              class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            >
+              <option value="">--Select--</option>
+              <!-- <option value="Extremely Active">Extremely Active</option> -->
+              <!-- <option value="Lightly Active">Lightly Active</option> -->
+              <option value="moderate">Moderately Active</option>
+              <option value="sedentary">Sedentary</option>
+              <option value="active">Active</option>
+            </select>
+          </div>
+  
+          <!-- Diet Preference -->
+          <div>
+            <label for="diet_preference" class="block text-sm font-medium text-gray-700">Diet Preference:</label>
+            <select
+              id="diet_preference"
+              name="diet_preference"
+              required
+              class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            >
+              <option value="">--Select--</option>
+              <option value="non-veg">Non-Vegeterian</option>
+              <option value="vegan">Vegan</option>
+              <option value="vegetarian">Vegetarian</option>
+            </select>
+          </div>
+  
+          <!-- Disease -->
+          <!-- <div>
+            <label for="user_disease" class="block text-sm font-medium text-gray-700">Having Any Disease:</label>
+            <select
+              id="user_disease"
+              name="user_disease"
+              required
+              class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            >
+              <option value="">--Select--</option>
+              <option value="Weight Gain">Weight Gain</option>
+              <option value="Hypertension">Hypertension</option>
+              <option value="Heart Disease">Heart Disease</option>
+              <option value="Diabetes">Diabetes</option>
+              <option value="Acne">Acne</option>
+              <option value="Nothing">No one Disease</option>
+              
+            </select>
+          </div> -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Having Any Disease:</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" name="user_disease" value="Weight Gain" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="text-gray-700">Weight Gain</span>
+              </label>
+              
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" name="user_disease" value="Hypertension" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="text-gray-700">Hypertension</span>
+              </label>
+          
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" name="user_disease" value="Heart Disease" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="text-gray-700">Heart Disease</span>
+              </label>
+          
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" name="user_disease" value="Diabetes" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="text-gray-700">Diabetes</span>
+              </label>
+          
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" name="user_disease" value="Acne" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="text-gray-700">Acne</span>
+              </label>
+          
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" name="user_disease" value="Nothing" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="text-gray-700">No one Disease</span>
+              </label>
+            </div>
+          </div>
+          
+          
+  
+          <!-- Submit Button -->
+          <div>
+            <button
+              type="submit"
+              class="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+            >
+              Get Recommendation
+            </button>
+          </div>
+        </form>
+      </div>
+    </body>
+   
+  </html> -->
+ 
+  
+
+
+
+  ------------------
+
+  <script src="https://cdn.tailwindcss.com"></script>
+<html>
+  <head>
+    <title>Health Form</title>
+    
+  </head>
+  <style>
+      .body-scroll{
+        overscroll-behavior: none;
+      }
+    </style>
+  
+
+  <body class="bg-gray-50 flex justify-center items-center min-h-screen body-scroll">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-2xl font-semibold text-center mb-6">Enter Your Health Details</h2>
+
+      <form method="POST" action="/" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- Name
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+          <input type="text" id="name" name="name" required class="mt-1 p-2 border border-gray-300 rounded-md w-full" >
+        </div>
+
+        <!-- Age -->
+        <div>
+          <label for="age" class="block text-sm font-medium text-gray-700">Age:</label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            required
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          >
+        </div>
+
+        <!-- Height -->
+        <div>
+          <label for="height" class="block text-sm font-medium text-gray-700">Height (cm):</label>
+          <input
+            type="number"
+            id="height"
+            name="height"
+            min="100"
+            max="250"
+            step="0.1"
+            required
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          >
+        </div>
+
+        <!-- Weight -->
+        <div>
+          <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg):</label>
+          <input
+            type="number"
+            id="weight"
+            name="weight"
+            step="0.1"
+            required
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          >
+        </div>
+
+        <!-- Activity Level -->
+        <div>
+          <label for="activity_level" class="block text-sm font-medium text-gray-700">Activity Level:</label>
+          <select
+            id="activity_level"
+            name="activity_level"
+            required
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          >
+            <option value="">--Select--</option>
+            <!-- <option value="Extremely Active">Extremely Active</option> -->
+            <!-- <option value="Lightly Active">Lightly Active</option> -->
+            <option value="moderate">Moderately Active</option>
+            <option value="sedentary">Sedentary</option>
+            <option value="active">Active</option>
+          </select>
+        </div>
+
+        <!-- Diet Preference -->
+        <div>
+          <label for="diet_preference" class="block text-sm font-medium text-gray-700">Diet Preference:</label>
+          <select
+            id="diet_preference"
+            name="diet_preference"
+            required
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          >
+            <option value="">--Select--</option>
+            <option value="non-veg">Non-Vegeterian</option>
+            <option value="vegan">Vegan</option>
+            <option value="vegetarian">Vegetarian</option>
+          </select>
+        </div>
+
+        <!-- Disease -->
+        <!-- <div>
+          <label for="user_disease" class="block text-sm font-medium text-gray-700">Having Any Disease:</label>
+          <select
+            id="user_disease"
+            name="user_disease"
+            required
+            class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          >
+            <option value="">--Select--</option>
+            <option value="Weight Gain">Weight Gain</option>
+            <option value="Hypertension">Hypertension</option>
+            <option value="Heart Disease">Heart Disease</option>
+            <option value="Diabetes">Diabetes</option>
+            <option value="Acne">Acne</option>
+            <option value="Nothing">No one Disease</option>
+            
+          </select>
+        </div> -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Having Any Disease:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" name="user_disease" value="Weight Gain" class="form-checkbox h-4 w-4 text-blue-600">
+              <span class="text-gray-700">Weight Gain</span>
+            </label>
+            
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" name="user_disease" value="Hypertension" class="form-checkbox h-4 w-4 text-blue-600">
+              <span class="text-gray-700">Hypertension</span>
+            </label>
+        
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" name="user_disease" value="Heart Disease" class="form-checkbox h-4 w-4 text-blue-600">
+              <span class="text-gray-700">Heart Disease</span>
+            </label>
+        
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" name="user_disease" value="Diabetes" class="form-checkbox h-4 w-4 text-blue-600">
+              <span class="text-gray-700">Diabetes</span>
+            </label>
+        
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" name="user_disease" value="Acne" class="form-checkbox h-4 w-4 text-blue-600">
+              <span class="text-gray-700">Acne</span>
+            </label>
+        
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" name="user_disease" value="Nothing" class="form-checkbox h-4 w-4 text-blue-600">
+              <span class="text-gray-700">No one Disease</span>
+            </label>
+          </div>
+        </div>
+        
+        
+
+        <!-- Submit Button -->
+        <div>
+          <button
+            type="submit"
+            class="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          >
+            Get Recommendation
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+ 
+</html> -->

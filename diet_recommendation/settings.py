@@ -83,7 +83,7 @@ DATABASES = {
     }
 }
 
-DATASET_PATH = os.path.join(BASE_DIR, 'dataset/food_and_nutrition_update.csv')
+DATASET_PATH = os.path.join(BASE_DIR, 'dataset/Augmented_Diet_Dataset.csv')
 
 
 # Password validation
