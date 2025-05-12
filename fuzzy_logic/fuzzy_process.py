@@ -229,27 +229,52 @@ class Fuzzifiction():
     #         "snack": snack
     #     }
 
-    def fetch_recommendation(self, score: str, diet_preference: int, diseases: list) -> str:
-        data = pd.read_csv(settings.DATASET_PATH)
+    # def fetch_recommendation(self, score: str, diet_preference: int, diseases: list) -> str:
+    #     data = pd.read_csv(settings.DATASET_PATH)
 
-        # Convert the diseases list to lowercase for comparison
-        diseases_lower = [disease.lower() for disease in diseases]
+    #     # Convert the diseases list to lowercase for comparison
+    #     diseases_lower = [disease.lower() for disease in diseases]
 
-        # Modify the filtering logic to check if the disease is a string before calling .lower()
-        fetch = data[
-            data['Disease'].apply(lambda x: any(disease.lower() in str(x).lower() for disease in diseases_lower)) & 
-            (data['Dietary Preference'] == diet_preference) & 
-            (data['Scaling'] == score)
-        ]
+    #     # Modify the filtering logic to check if the disease is a string before calling .lower()
+    #     fetch = data[
+    #         data['Disease'].apply(lambda x: any(disease.lower() in str(x).lower() for disease in diseases_lower)) & 
+    #         (data['Dietary Preference'] == diet_preference) & 
+    #         (data['Scaling'] == score)
+    #     ]
         
-        breakfast = ', '.join(fetch['Breakfast Suggestion'].dropna().head(4).tolist())
-        lunch = ', '.join(fetch['Lunch Suggestion'].dropna().head(4).tolist())
-        dinner = ', '.join(fetch['Dinner Suggestion'].dropna().head(4).tolist())
-        snack = ', '.join(fetch['Snack Suggestion'].dropna().head(4).tolist())
+    #     breakfast = ', '.join(fetch['Breakfast Suggestion'].dropna().head(4).tolist())
+    #     lunch = ', '.join(fetch['Lunch Suggestion'].dropna().head(4).tolist())
+    #     dinner = ', '.join(fetch['Dinner Suggestion'].dropna().head(4).tolist())
+    #     snack = ', '.join(fetch['Snack Suggestion'].dropna().head(4).tolist())
         
-        return {
-            "breakfast": breakfast,
-            "lunch": lunch,
-            "dinner": dinner,
-            "snack": snack
-        }
+    #     return {
+    #         "breakfast": breakfast,
+    #         "lunch": lunch,
+    #         "dinner": dinner,
+    #         "snack": snack
+    #     }
+    def fetch_recommendation(self, score: str, diet_preference: int, diseases: list) -> dict:
+            data = pd.read_csv(settings.DATASET_PATH)
+            diseases_lower = [d.lower() for d in diseases]
+
+            fetch = data[
+                data['Disease'].apply(lambda x: any(disease in str(x).lower() for disease in diseases_lower)) &
+                (data['Dietary Preference'] == diet_preference) &
+                (data['Scaling'] == score)
+            ]
+
+            def unique_join(series):
+                seen = set()
+                return ', '.join([x for x in series if not (x in seen or seen.add(x))])
+
+            breakfast = unique_join(fetch['Breakfast Suggestion'].dropna().head(4).tolist())
+            lunch = unique_join(fetch['Lunch Suggestion'].dropna().head(4).tolist())
+            dinner = unique_join(fetch['Dinner Suggestion'].dropna().head(4).tolist())
+            snack = unique_join(fetch['Snack Suggestion'].dropna().head(4).tolist())
+
+            return {
+                "breakfast": breakfast,
+                "lunch": lunch,
+                "dinner": dinner,
+                "snack": snack
+            }
